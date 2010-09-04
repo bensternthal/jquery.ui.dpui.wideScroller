@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>		
+    <title>wideScroller Unit Tests</title>
+    <script type="text/javascript" src="/lib/jquery/jquery-1.4.2.min.js"></script>	    
+    <script type="text/javascript" src="/lib/jquery/jquery-ui-1.8.4.custom.min.js"></script>	
+    <script type="text/javascript" src="/lib/external/jquery.ba-throttle-debounce.min.js"></script>   
+    <script type="text/javascript" src="/lib/external/url-request.js"></script>   
+    
+    <script type="text/javascript" src="../jquery.ui.dpui.wideScroller.js"></script>  
+
+
+    <script type="text/javascript">
+
+    $(function() {  
+        //Check For URL Request To Load Specific Image
+
+        var request = new Request();
+        var item = null;
+
+        if(request.keyValueFinder("goToItem",request.queryString())) {
+            item = request.keyValueFinder("goToItem",request.queryString());
+        }
+
+        $("#scroller").wideScroller({
+            goToItem : item
+        });
+    });                
+    </script>
+    
+    
+        
+
+        	    
+
+    <style type="text/css">    
+    #scroller {
+        overflow:hidden;
+        position:relative;
+        width:100%;
+        height:525px;
+    }
+
+    #scroller-container {
+        margin:8px 0 35px 0;
+        width:100000px;
+        height:480px;
+        position:absolute;
+        top:0px;
+        left:0px;
+    }
+
+    .scrollable-item{
+        position:absolute;
+        padding:0 8px 0 0;
+        opacity:.5;    
+    }
+
+    .scrollable-meta {
+        height:30px;
+        margin-top:18px;
+        position:relative;
+        width:980px;
+        font-size:12px;
+        color:#939083;
+        display:none;
+    }
+    
+    .active {
+        opacity:1 !important;
+    }
+    
+    #locator {
+        width:980px;
+        margin:0 auto 0 auto;
+    }
+    
+    #scroller-spinner {
+        position:absolute;
+        width:100%;
+        height:100%;
+        background:#f5f1e9 url(spinner.gif) center center no-repeat;
+        top:0px;
+        left:0px;
+        z-index:5;
+    }    
+    </style>  
+    
+    <link rel="stylesheet" href="/lib/qunit/qunit.css" type="text/css" media="screen">
+    <script type="text/javascript" src="/lib/qunit/qunit.js"></script>   
+    <script type="text/javascript" src="wideScroller_methods.js"></script>  
+        	    
+    
+    
+</head>
+<body>
+    
+    <h1 id="qunit-header">DevPatch UI WideScroller Test Suite</h1>
+    <h2 id="qunit-banner"></h2>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests">
+    </ol>
+        
+
+    <div class="sized-layout">
+
+        <div id="ws-item-numbers" class="rid-widget">
+            Image 
+            <span id="rid-ws-currentItem" class="rid-widget"></span> of  
+            <span id="rid-ws-totalItems" class="rid-widget"></span>
+        </div>
+
+
+        <div id="scroll-control" class="rid-ws-control">
+            <a href="#" class="prev"><</a>             
+            <a href="#" class="next">></a>   
+        </div>     
+    </div>
+    
+
+    <h1 id="locator">Locator</h1>
+    
+    <div id="scroller">
+        <div id="scroller-spinner"></div>
+
+        <div id="scroller-container">
+
+            <div class="scrollable-item active">
+                <img src="image1.jpg"  width="980" height="400" />
+                <div class="scrollable-meta">
+                    <div class="meta-pcredit">Photo Credit</div>                      
+                </div>                            
+            </div>  
+            
+            <div class="scrollable-item">
+                <img src="image2.jpg"  width="980" height="400" />
+                <div class="scrollable-meta">
+                    <div class="meta-pcredit">Photo Credit</div>                      
+                </div>                            
+            </div>  
+            
+            <div class="scrollable-item">
+                <img src="image3.jpg"  width="980" height="400" />
+                <div class="scrollable-meta">
+                    <div class="meta-pcredit">Photo Credit</div>                      
+                </div>                            
+            </div>                             
+
+        </div>            
+    </div> 
+    
+      
+</body>
+</html>          
