@@ -6,6 +6,9 @@
 module("wideScroller: methods");
 
 test("number of items display", function() {
+
+    expect(2);
+    
 	var value = $('#rid-ws-totalItems').html();
 	equals( 3, value, "total number of items should be 3" );
 	

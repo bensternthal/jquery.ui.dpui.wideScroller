@@ -33,12 +33,30 @@
         _create: function() {
             var self = this, o = this.options, e = this.element;            
             
-            // Default Class For All Roughan Widgets
-            e.addClass("rid-widget"); 
+            // Default Class For All Devpatch Widgets
+            e.addClass("dpui-widget");
+
+            // Bind Resize & Throttle
+            $(window).resize($.throttle(500,function(){
+                self.resize();
+            }));
+
+            // Bind Next
+            $(o.nextButton).bind('click',function(){
+                self.moveNext();
+                $(this).unbind();
+                return false;
+            });
+
+            // Bind Prev
+            $(o.prevButton).bind('click',function(){
+                self.movePrev();
+                $(this).unbind();
+                return false;
+            });              
             
             self.itemsLength = $(o.items).length;
-            
-            
+
             //if only one image hide controls
             if(self.itemsLength <=1){
                 $(o.prevButton +", " + o.nextButton).hide();
@@ -55,24 +73,7 @@
             // Set Initial Positions and Wrapped Images
             self.setItemPosition();
                         
-            // Bind Resize & Throttle
-            $(window).resize($.throttle(500,function(){
-                self.resize();
-            })); 
-            
-            // Bind Next
-            $(o.nextButton).bind('click',function(){
-                self.moveNext();                    
-                $(this).unbind();              
-                return false;
-            });
-            
-            // Bind Prev
-            $(o.prevButton).bind('click',function(){
-                self.movePrev();                    
-                $(this).unbind();              
-                return false;
-            });                  
+
         },
         
         _reOrderItems: function() {
