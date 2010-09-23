@@ -31,8 +31,7 @@
         }, 
         
         _create: function() {
-            var self = this, o = this.options, e = this.element;            
-            
+            var self = this, o = this.options, e = this.element;
             // Default Class For All Devpatch Widgets
             e.addClass("dpui-widget");
 
@@ -41,19 +40,8 @@
                 self.resize();
             }));
 
-            // Bind Next
-            $(o.nextButton).bind('click',function(){
-                self.moveNext();
-                $(this).unbind();
-                return false;
-            });
-
-            // Bind Prev
-            $(o.prevButton).bind('click',function(){
-                self.movePrev();
-                $(this).unbind();
-                return false;
-            });              
+            // Bind Buttons
+            self._bindControls();
             
             self.itemsLength = $(o.items).length;
 
@@ -75,9 +63,40 @@
                         
 
         },
-        
+
+        _bindControls: function() {
+            var self = this, o = this.options;
+
+            // Bind Next
+            $(o.nextButton).bind('click',function(){
+                self.moveNext();
+                self._unbindControls();
+
+                // callback
+                self._trigger('next', null, null);
+                return false;
+            });
+
+            // Bind Prev
+            $(o.prevButton).bind('click',function(){
+                self.movePrev();
+                self._unbindControls();
+
+                //callback
+                self._trigger('previous', null, null);                
+                return false;
+            });
+        },
+
+        _unbindControls: function() {
+            var self = this, o = this.options;
+            
+            $(o.prevButton).unbind();
+            $(o.nextButton).unbind();
+        },
+
         _reOrderItems: function() {
-            var self = this, o = this.options
+            var self = this, o = this.options;
             
             //Reorder dom elements for load
             var items = $(o.items);
@@ -184,12 +203,8 @@
                 activeItem = null;
                 nextItem = null;
                 
-                //Rebind Action Button
-                $(o.nextButton).bind('click',function(){
-                    self.moveNext();                    
-                    $(this).unbind();              
-                    return false;
-                });
+                //Rebind Action Buttons
+                self._bindControls();
                 
                 //Item Number
                 self._updateItemNumber('next');                
@@ -247,11 +262,7 @@
                 nextItem = null;
                 
                 //Rebind Action Button
-                $(o.prevButton).bind('click',function(){
-                    self.movePrev();                    
-                    $(this).unbind();              
-                    return false;
-                });
+                self._bindControls();
                 
                 //Item Number
                 self._updateItemNumber('prev');
@@ -348,12 +359,11 @@
         destroy: function() {
             var self = this, o = this.options, e = this.element;            
             e.removeClass('rid-widget');
-            $(o.nextButton).unbind();  
-            $(o.prevButton).unbind(); 
+            $(o.nextButton).unbind('click');
+            $(o.prevButton).unbind('click');
             $(o.spinner).hide()                         
             e.html(self._initialState);
-            $.Widget.prototype.destroy.apply(this, arguments)                     
-        }        
+        }
       
     }); 
     
