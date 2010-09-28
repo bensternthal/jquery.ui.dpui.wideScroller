@@ -3,9 +3,8 @@
  */
 (function($) {
 
-module("wideScroller: methods");
-
-test("number of items display", function() {
+module("wideScroller: ui");
+test("Number of items display", function() {
 
     var el = $("#scroller").wideScroller();
 
@@ -13,16 +12,28 @@ test("number of items display", function() {
     expect(2);
     
 	var value = $('#rid-ws-totalItems').html();
-	equals( 3, value, "total number of items should be 3" );
+	equals( 3, value, "Total number of items should be 3" );
 	
 	var value = $('#rid-ws-currentItem').html();
-	equals( 1, value, "current item should be 1" );
+	equals( 1, value, "Current item should be 1" );
 
-    
 });
 
-module("wideScroller: events");    
-test("bind buttons", function() {
+test("1st Item Location/Offset", function() {
+    expect(1);
+
+    //find loctor offset
+    //find 1st image offset
+    //test that they are equal
+
+    var locatorOffset = $("#locator").offset().left + "px";
+    var itemOffset = $(".active").css("left");
+
+    equals( locatorOffset, itemOffset, "Offest of locator and active image match" );    
+});
+
+module("wideScroller: events");
+test("Bind previous/next buttons", function() {
 
     stop()
 
@@ -48,6 +59,22 @@ test("bind buttons", function() {
         start();        
     };
 
+});
+
+test("Window Resize Event", function() {
+    expect(1);
+
+    var origWidth = $(window).width();
+    var origHeight = $(window).height();
+
+    window.resizeTo(800,600);   
+
+    var locatorOffset = $("#locator").offset().left + "px";
+    var itemOffset = $(".active").css("left");
+
+    equals( locatorOffset, itemOffset, "Offest of locator and active image match" );
+
+    window.resizeTo(origWidth, origHeight);
 });
 
 
