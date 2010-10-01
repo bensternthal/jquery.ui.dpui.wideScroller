@@ -60,7 +60,6 @@
                                                 
             // Set Initial Positions and Wrapped Images
             self.setItemPosition();
-                        
 
         },
 
@@ -363,6 +362,10 @@
             $(o.prevButton).unbind('click');
             $(o.spinner).hide()                         
             e.html(self._initialState);
+            $(o.items).css('left','0');
+            
+            $.Widget.prototype.destroy.apply(this, arguments);
+            return this;
         }
       
     }); 

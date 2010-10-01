@@ -5,27 +5,10 @@
     <script type="text/javascript" src="/lib/jquery/jquery-1.4.2.min.js"></script>	    
     <script type="text/javascript" src="/lib/jquery/jquery-ui-1.8.4.custom.min.js"></script>	
     <script type="text/javascript" src="/lib/external/jquery.ba-throttle-debounce.min.js"></script>   
-    <script type="text/javascript" src="/lib/external/url-request.js"></script>   
     
     <script type="text/javascript" src="../jquery.ui.dpui.wideScroller.js"></script>  
 
 
-    <script type="text/javascript">
-
-    $(function() {  
-        //Check For URL Request To Load Specific Image
-
-        var request = new Request();
-        var item = null;
-
-        if(request.keyValueFinder("goToItem",request.queryString())) {
-            item = request.keyValueFinder("goToItem",request.queryString());
-        }
-
-        
-    });                
-    </script>
-        	    
 
     <style type="text/css">    
     #scroller {
