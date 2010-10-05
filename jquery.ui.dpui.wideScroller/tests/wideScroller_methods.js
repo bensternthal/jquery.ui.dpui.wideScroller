@@ -3,7 +3,6 @@
  */
 
 
-
 (function($) {
 module("wideScroller: ui");
 test("Number of items display", function() {
@@ -103,4 +102,5 @@ test("Specify Start Image", function() {
 //test re-order
 
 })(jQuery);
+
 

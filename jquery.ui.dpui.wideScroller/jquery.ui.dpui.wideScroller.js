@@ -167,17 +167,11 @@
             var self = this, o = this.options, e = this.element;                
             var windowWidth = $(window).width();
             var items = $(o.items);
-            
-            //Highlight Item
-            var activeItem = e.find(o.currentClass);
-            var nextItem = activeItem.next();     
-            //Hide Info
-            activeItem.find(o.captionClass).hide();                                 
-            activeItem.removeClass('active'); 
-            nextItem.addClass('active');
-            
-            
-            
+
+
+            //Highlight Image Move Active Class
+            self._highlightItem('next');            
+
             // Find Location Of Last Element
             var lastItem = $(items[(self.itemsLength -1)]);            
             var offset = lastItem.offset();
@@ -190,26 +184,13 @@
                         .addClass('scrollable-item')
                         .css('left', (lastItem.outerWidth() + offset.left))                                    
                         .appendTo(o.container);
-                                                    
+
             // Do Scroll             
-            var moveDistance = activeItem.outerWidth() + "px";                        
+            var moveDistance = e.find(o.currentClass).outerWidth() + "px";                        
             
-            self._scroll('next',moveDistance, function(){ 
-                //IE memory leak prevention
-                self.swappedElement.remove();
-                self.swappedElement = null;
-                myDiv = null;
-                activeItem = null;
-                nextItem = null;
-                
-                //Rebind Action Buttons
-                self._bindControls();
-                
-                //Item Number
-                self._updateItemNumber('next');                
-                
-                // Show Credit
-                $(o.currentClass +" " +o.captionClass).fadeIn('fast');              
+            self._scroll('next',moveDistance, function(){
+                //Callback
+                self._scrollOnComplete('next' );
             });
         },
         
@@ -217,25 +198,12 @@
             var self = this, o = this.options, e = this.element;                
             var windowWidth = $(window).width();
             var items = $(o.items);
-            var isShortClass = "";
+            self.shortClass = "";
+            self.nextItem = "";
             
             //Highlight Item
-            var activeItem = e.find(o.currentClass);
-            
-            
-            if(activeItem.prev().length!=0) {            
-                var nextItem = activeItem.prev();
-            } else {
-                //no items before so use last on right            
-                var nextItem = $(items[(self.itemsLength -1)]); 
-                isShortClass = "active";
-            }    
-            
-            activeItem.find(o.captionClass).hide();                                                         
-            activeItem.removeClass('active'); 
-            nextItem.addClass('active');            
-           
-            
+            self._highlightItem('prev');
+
             // Find Location Of First Element
             var firstItem = $(items[0]);
             var offset = firstItem.offset(); 
@@ -244,31 +212,19 @@
             self.swappedElement = $(items[(self.itemsLength -1)]);                                  
             var myDiv = $('<div></div>')
                         .html(self.swappedElement.html())
-                        .addClass('scrollable-item '+ isShortClass)
+                        .addClass('scrollable-item '+ self.shortClass)
                         .css('left', (offset.left - self.swappedElement.outerWidth()))                                    
                         .prependTo(o.container);
                         
-             
+
             // Do Scroll             
-            var moveDistance = nextItem.outerWidth() + "px";  
+            var moveDistance = self.nextItem.outerWidth() + "px";
             
-            self._scroll('prev',moveDistance, function(){ 
-                //IE memory leak prevention
-                self.swappedElement.remove();
-                self.swappedElement = null;
-                myDiv = null;
-                activeItem = null;
-                nextItem = null;
+            self._scroll('prev',moveDistance, function(){
+                //Callback
+                self._scrollOnComplete('prev');
+            });
                 
-                //Rebind Action Button
-                self._bindControls();
-                
-                //Item Number
-                self._updateItemNumber('prev');
-                
-                // Show Credit
-                $(o.currentClass +" " +o.captionClass).fadeIn('fast');              
-            });            
         },
         
         _scroll: function( direction, distance, callback ) {
@@ -306,6 +262,49 @@
                 default:
                     break;                                       
             }
+        },
+
+        _scrollOnComplete: function( direction ) {
+            var self = this, o = this.options;
+
+            //IE memory leak prevention
+            self.swappedElement.remove();
+            self.swappedElement = null;
+
+            //Rebind Action Buttons
+            self._bindControls();
+
+            //Item Number
+            self._updateItemNumber( direction );
+
+            // Show Credit
+            $(o.currentClass +" " +o.captionClass).fadeIn('fast');
+
+        },
+
+        _highlightItem: function ( direction ) {
+            var self = this, o = this.options, e = this.element;            
+
+            //Next
+            //Highlight Item
+            var activeItem = e.find(o.currentClass);
+
+            if(direction === "next") {
+                self.nextItem = activeItem.next();
+            } else {
+                if(activeItem.prev().length!=0) {
+                    self.nextItem = activeItem.prev();
+                } else {
+                    //no items before so use last on right
+                    self.nextItem = $(items[(self.itemsLength -1)]);
+                    self.shortClass = "active";
+                }
+            }
+
+            activeItem.find(o.captionClass).hide();
+            activeItem.removeClass('active');
+            self.nextItem.addClass('active');
+
         },
         
         _updateItemNumber: function( direction ) {
