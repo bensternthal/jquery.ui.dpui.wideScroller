@@ -53,8 +53,8 @@ test("Bind controls, prev/next", function() {
         $('.prev').click();
 	    equals( prev, 1, "prev callback happened once" );
         clearInterval(timer);
-        start();        
-    };
+        start();
+    }
 
 });
 
@@ -75,10 +75,10 @@ test("Window Resize Event", function() {
         var locatorOffset = $("#locator").offset().left + "px";
         var itemOffset = $(".active").css("left");
         equals( locatorOffset, itemOffset, "Offest of locator and active image match" );
-        window.resizeTo(origWidth, origHeight);        
+        window.resizeTo(origWidth, origHeight);
         clearInterval(timer);
         start();
-    };
+    }
 
 
 
@@ -87,7 +87,7 @@ test("Window Resize Event", function() {
 module("wideScroller: option");
 test("Specify Start Image", function() {
 
-    //expect(1);
+    expect(1);
 
     $("#scroller").wideScroller("destroy");
 
@@ -100,8 +100,7 @@ test("Specify Start Image", function() {
 
 });
 
-//test photo credit
-//test spinner    
+//test re-order
 
 })(jQuery);
 

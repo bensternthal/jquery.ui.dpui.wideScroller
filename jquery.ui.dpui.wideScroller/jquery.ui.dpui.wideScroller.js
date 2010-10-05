@@ -363,7 +363,7 @@
             $(o.spinner).hide()                         
             e.html(self._initialState);
             $(o.items).css('left','0');
-            
+
             $.Widget.prototype.destroy.apply(this, arguments);
             return this;
         }
