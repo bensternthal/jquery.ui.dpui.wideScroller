@@ -8,6 +8,12 @@
  *      jquery 1.4.2   
  *      jquery.ui 1.8.2
  *      jquery.ba-throttle-debounce.min.js 1.1 (http://benalman.com/projects/jquery-throttle-debounce-plugin/)
+ *
+ * Callbacks
+ *      start
+ *      stop
+ *      next
+ *      previous
  *      
  */
  
@@ -67,22 +73,22 @@
             var self = this, o = this.options;
 
             // Bind Next
-            $(o.nextButton).bind('click',function(){
+            $(o.nextButton).bind('click',function(event){
                 self.moveNext();
                 self._unbindControls();
 
                 // callback
-                self._trigger('next', null, null);
+                self._trigger('next', event);
                 return false;
             });
 
             // Bind Prev
-            $(o.prevButton).bind('click',function(){
+            $(o.prevButton).bind('click',function(event){
                 self.movePrev();
                 self._unbindControls();
 
                 //callback
-                self._trigger('previous', null, null);                
+                self._trigger('previous', event);                
                 return false;
             });
         },
@@ -280,13 +286,14 @@
             // Show Credit
             $(o.currentClass +" " +o.captionClass).fadeIn('fast');
 
+            //Callback
+            self._trigger('stop');            
+
         },
 
         _highlightItem: function ( direction ) {
             var self = this, o = this.options, e = this.element;            
 
-            //Next
-            //Highlight Item
             var activeItem = e.find(o.currentClass);
 
             if(direction === "next") {
@@ -345,7 +352,6 @@
                        
         
         },
-        
         
         resize: function() {
             var self = this, o = this.options, e = this.element; 

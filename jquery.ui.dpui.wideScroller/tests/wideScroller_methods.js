@@ -4,7 +4,8 @@
 
 
 (function($) {
-module("wideScroller: ui");
+
+module("wideScroller: ui core");
 test("Number of items display", function() {
 
     var el = $("#scroller").wideScroller();
@@ -33,9 +34,7 @@ test("1st Item Location/Offset", function() {
 
 module("wideScroller: events");
 test("Bind controls, prev/next", function() {
-
-    stop()
-
+    stop();
     expect(2);
 
     var next = 0, prev = 0;
@@ -44,22 +43,38 @@ test("Bind controls, prev/next", function() {
     $("#scroller").wideScroller("option", "previous", function(){ prev++; });
 
     $('.next').click();
-	equals( next, 1, "next callback happened once" );
+	equals( next, 1, "next button bound -> next callback happened once" );
 
     var timer = setInterval(function(){test()}, 4000);
 
     function test() {
         $('.prev').click();
-	    equals( prev, 1, "prev callback happened once" );
+	    equals( prev, 1, "prev button bound -> prev callback happened once" );
         clearInterval(timer);
         start();
     }
+});
 
+test("Stop Callback", function() {
+    stop();
+    expect(1);
+
+    var stopCount = 0;
+
+    $("#scroller").wideScroller("option", "stop", function(){ stopCount++; });
+
+    $('.next').click();
+
+    var timer = setInterval(function(){test()}, 4000);
+
+    function test() {
+        equals( stopCount, 1, "stop callback happened once" );
+        clearInterval(timer);
+        start();
+    }
 });
 
 test("Window Resize Event", function() {
-
-
     expect(1);
 
     stop()
@@ -79,8 +94,6 @@ test("Window Resize Event", function() {
         start();
     }
 
-
-
 });
 
 module("wideScroller: option");
@@ -99,8 +112,7 @@ test("Specify Start Image", function() {
 
 });
 
+
 //test re-order
 
 })(jQuery);
-
-
