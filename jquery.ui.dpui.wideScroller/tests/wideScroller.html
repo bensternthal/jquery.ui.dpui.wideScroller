@@ -2,15 +2,38 @@
 <html>
     <head>		
     <title>wideScroller Unit Tests</title>
-    <script type="text/javascript" src="/lib/jquery/jquery-1.4.2.min.js"></script>	    
-    <script type="text/javascript" src="/lib/jquery/jquery-ui-1.8.4.custom.min.js"></script>	
-    <script type="text/javascript" src="/lib/external/jquery.ba-throttle-debounce.min.js"></script>   
-    
-    <script type="text/javascript" src="../jquery.ui.dpui.wideScroller.js"></script>  
+<!--
+    <script type="text/javascript" src="/lib/jquery/require-jquery-1.4.3.js"></script>
+        
+    <script type="text/javascript">
+        require([
+            "/lib/jquery/jquery-ui-1.8.4.custom.min.js",    
+            "/lib/external/jquery.ba-throttle-debounce.min.js",
+            "/jquery.ui.dpui.wideScroller/jquery.ui.dpui.wideScroller.js",
+            "/lib/qunit/qunit.js"
 
+            ],
+            function() {
+               
+            }
+        );
+    </script>
+-->
+    <link rel="stylesheet" href="/lib/qunit/qunit.css" type="text/css" media="screen">
+    <script type="text/javascript" src="/lib/jquery/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery/jquery-ui-1.8.4.custom.min.js"></script>	
+    <script type="text/javascript" src="/lib/external/jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="../jquery.ui.dpui.wideScroller.js"></script>
+        
+<!--
+
+    <link rel="stylesheet" href="/lib/qunit/qunit.css" type="text/css" media="screen">
+    <script type="text/javascript" src="/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="wideScroller_methods.js"></script>
+-->
     <script type="text/javascript">
         $(function() {
-            //$("#scroller").wideScroller();
+            $("#scroller").wideScroller();
         });
 
     </script>
@@ -41,7 +64,7 @@
     .scrollable-item{
         position:absolute;
         padding:0 8px 0 0;
-        opacity:.5;    
+        opacity:.5;
     }
 
     .scrollable-meta {
@@ -72,12 +95,8 @@
         left:0px;
         z-index:5;
     }    
-    </style>  
-    
-    <link rel="stylesheet" href="/lib/qunit/qunit.css" type="text/css" media="screen">
-    <script type="text/javascript" src="/lib/qunit/qunit.js"></script>   
-    <script type="text/javascript" src="wideScroller_methods.js"></script>  
-        	    
+    </style>
+         	    
     
     
 </head>
@@ -125,7 +144,14 @@
                 <div class="scrollable-meta">
                     <div class="meta-pcredit">Photo Credit</div>                      
                 </div>                            
-            </div>  
+            </div>
+
+            <div class="scrollable-item">
+                <img src="short-image.gif"  width="250" height="400" />
+                <div class="scrollable-meta">
+                    <div class="meta-pcredit">Photo Credit</div>
+                </div>
+            </div>
             
             <div class="scrollable-item">
                 <img src="image3.jpg"  width="980" height="400" />

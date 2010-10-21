@@ -5,7 +5,7 @@
 
 (function($) {
 
-module("wideScroller: ui core");
+module("wideScroller: ui corea");
 test("Number of items display", function() {
 
     var el = $("#scroller").wideScroller();
@@ -13,7 +13,7 @@ test("Number of items display", function() {
     expect(2);
     
 	var value = $('#rid-ws-totalItems').html();
-	equals( 3, value, "Total number of items should be 3" );
+	equals( 4, value, "Total number of items should be 3" );
 	
 	var value = $('#rid-ws-currentItem').html();
 	equals( 1, value, "Current item should be 1" );
@@ -103,12 +103,17 @@ test("Specify Start Image", function() {
 
     $("#scroller").wideScroller("destroy");
 
+    var items = $(".scrollable-item");
+
     $("#scroller").wideScroller({
-        goToItem: '2'
+        goToItem: '3'
     });
 
-    var items = $(".scrollable-item");
-    ok($(items[1]).hasClass("active"), "Second Image Is Active" ); 
+
+
+
+
+    ok($(items[2]).hasClass("active"), "Second Image Is Active" ); 
 
 });
 

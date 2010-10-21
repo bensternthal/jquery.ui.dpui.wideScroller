@@ -173,16 +173,15 @@
             var self = this, o = this.options, e = this.element;                
             var windowWidth = $(window).width();
             var items = $(o.items);
-
+            var activeItem = e.find(o.currentClass);
 
             //Highlight Image Move Active Class
-            self._highlightItem('next');            
+            self._highlightItem('next');
 
             // Find Location Of Last Element
             var lastItem = $(items[(self.itemsLength -1)]);            
             var offset = lastItem.offset();
-            
-            
+                    
             //Clone For Smooth Scrolling Off Edge  
             self.swappedElement = $(items[0]);                                  
             var myDiv = $('<div></div>')
@@ -191,9 +190,9 @@
                         .css('left', (lastItem.outerWidth() + offset.left))                                    
                         .appendTo(o.container);
 
-            // Do Scroll             
-            var moveDistance = e.find(o.currentClass).outerWidth() + "px";                        
-            
+            // Do Scroll - TODO: figure out why activeItem must be declared & why this has to go here or wrong width
+            var moveDistance = activeItem.outerWidth() + "px";
+
             self._scroll('next',moveDistance, function(){
                 //Callback
                 self._scrollOnComplete('next' );
