@@ -173,72 +173,122 @@
             var self = this, o = this.options, e = this.element;                
             var windowWidth = $(window).width();
             var items = $(o.items);
+            var itemsLength = $(o.items).length;
             var activeItem = e.find(o.currentClass);
+            var totalWidth = 0;
 
             //Highlight Image Move Active Class
             self._highlightItem('next');
 
             // Find Location Of Last Element
-            var lastItem = $(items[(self.itemsLength -1)]);            
+            var lastItem = $(items).last();
             var offset = lastItem.offset();
-                    
-            //Clone For Smooth Scrolling Off Edge  
-            self.swappedElement = $(items[0]);                                  
+
+            // Clone Loop
+            self.swappedElement = $(items[0]);
             var myDiv = $('<div></div>')
-                        .html(self.swappedElement.html())
+                    .html(self.swappedElement.html())
                         .addClass('scrollable-item')
-                        .css('left', (lastItem.outerWidth() + offset.left))                                    
+                        .css('left', (lastItem.outerWidth() + offset.left))
                         .appendTo(o.container);
+
+            if ((parseInt(myDiv.css("left")) + myDiv.outerWidth()) - activeItem.outerWidth() < windowWidth) {
+                //loop for additional clone
+                var i = 0;
+                var totalWidth = (parseInt(myDiv.css("left")) + myDiv.outerWidth()) - activeItem.outerWidth();
+                var endItem = $(o.items).last();
+
+
+                while(totalWidth <= windowWidth) {
+                    i++;
+
+                    var endOffset = endItem.offset();
+
+                    $(items[i]).css('left', (endItem.outerWidth() + endOffset.left))
+                                .css("border","1px solid red")
+                                .detach()
+                                .appendTo(o.container);
+
+                    totalWidth += $(items[i]).outerWidth();
+                    var endItem = $(items[i]);                    
+
+                }
+
+
+            }
+
 
             // Do Scroll - TODO: figure out why activeItem must be declared & why this has to go here or wrong width
             var moveDistance = activeItem.outerWidth() + "px";
 
             self._scroll('next',moveDistance, function(){
-                //Callback
-                self._scrollOnComplete('next' );
+                 self._scrollOnComplete('next' );
+                //self.whatsVisible();
             });
+
         },
-        
+
         movePrev: function() {
-            var self = this, o = this.options, e = this.element;                
+            var self = this, o = this.options, e = this.element;
             var windowWidth = $(window).width();
             var items = $(o.items);
             self.shortClass = "";
             self.nextItem = "";
-            
+
             //Highlight Item
             self._highlightItem('prev');
 
             // Find Location Of First Element
             var firstItem = $(items[0]);
-            var offset = firstItem.offset(); 
-            
-            //Clone For Smooth Scrolling Off Edge  
-            self.swappedElement = $(items[(self.itemsLength -1)]);                                  
+            var offset = firstItem.offset();
+
+            //Clone For Smooth Scrolling Off Edge
+            self.swappedElement = $(items[(self.itemsLength -1)]);
             var myDiv = $('<div></div>')
                         .html(self.swappedElement.html())
                         .addClass('scrollable-item '+ self.shortClass)
-                        .css('left', (offset.left - self.swappedElement.outerWidth()))                                    
+                        .css('left', (offset.left - self.swappedElement.outerWidth()))
                         .prependTo(o.container);
-                        
 
-            // Do Scroll             
+            // Do Scroll
             var moveDistance = self.nextItem.outerWidth() + "px";
-            
+
             self._scroll('prev',moveDistance, function(){
-                //Callback
                 self._scrollOnComplete('prev');
             });
-                
+
         },
-        
+
+        whatsVisible: function() {
+            var self = this, o = this.options, e = this.element;
+
+            var windowWidth = $(window).width();
+            var items = $(o.items);
+            var itemsLength = items.length;
+            var visibleItems = [];
+
+
+            while(itemsLength--) {
+                var offSetLeft = $(items[itemsLength]).offset().left;
+                var offSetWidth = offSetLeft + $(items[itemsLength]).outerWidth();
+
+                if( (offSetWidth >= 0) && (offSetLeft <= windowWidth) ) {
+                    visibleItems.push($(items[itemsLength]));
+                }
+            }
+
+            //return visibleItems
+            console.log(visibleItems);
+
+        },
+
         _scroll: function( direction, distance, callback ) {
-            var self = this, o = this.options, e = this.element;                
-            
+            var self = this, o = this.options, e = this.element;
+
             switch(direction) {
                 case "next":
                     var count = 0;
-        
+
                     $(o.items).animate({'left': "-="+distance},
                     o.speed,
                     o.easing,function(){
@@ -248,11 +298,11 @@
                             callback();
                         }
                     });
-                                    
+
                     break;
                 case "prev":
                     var count = 0;
-        
+
                     $(o.items).animate({'left': "+="+distance},
                     o.speed,
                     o.easing,function(){
@@ -262,10 +312,10 @@
                             callback();
                         }
                     });
-                                     
+
                     break;
                 default:
-                    break;                                       
+                    break;
             }
         },
 
@@ -275,6 +325,7 @@
             //IE memory leak prevention
             self.swappedElement.remove();
             self.swappedElement = null;
+
 
             //Rebind Action Buttons
             self._bindControls();
