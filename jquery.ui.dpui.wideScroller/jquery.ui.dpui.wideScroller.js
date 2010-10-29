@@ -185,45 +185,37 @@
             var offset = lastItem.offset();
 
             // Clone Loop
-            self.swappedElement = $(items[0]);
+            self.swappedElement = $(items).first();
             var myDiv = $('<div></div>')
                     .html(self.swappedElement.html())
                         .addClass('scrollable-item')
                         .css('left', (lastItem.outerWidth() + offset.left))
                         .appendTo(o.container);
 
-            if ((parseInt(myDiv.css("left")) + myDiv.outerWidth()) - activeItem.outerWidth() < windowWidth) {
-                //loop for additional clone
-                var i = 0;
-                var totalWidth = (parseInt(myDiv.css("left")) + myDiv.outerWidth()) - activeItem.outerWidth();
-                var endItem = $(o.items).last();
+            var lastItem = $(o.items).last();
+            var totalWidth = (parseInt(lastItem.css("left")) + lastItem.outerWidth()) - activeItem.outerWidth();
 
+            //fixes when images do not fill screen
+            if (totalWidth < windowWidth) {
+                var i = 0;
 
                 while(totalWidth <= windowWidth) {
                     i++;
-
-                    var endOffset = endItem.offset();
-
-                    $(items[i]).css('left', (endItem.outerWidth() + endOffset.left))
-                                .css("border","1px solid red")
+                    $(items[i]).css('left', (lastItem.outerWidth() + lastItem.offset().left))
                                 .detach()
                                 .appendTo(o.container);
 
                     totalWidth += $(items[i]).outerWidth();
-                    var endItem = $(items[i]);                    
-
+                    lastItem = $(items[i]);
                 }
-
-
             }
-
+            
 
             // Do Scroll - TODO: figure out why activeItem must be declared & why this has to go here or wrong width
             var moveDistance = activeItem.outerWidth() + "px";
 
             self._scroll('next',moveDistance, function(){
-                 self._scrollOnComplete('next' );
-                //self.whatsVisible();
+                self._scrollOnComplete('next' );
             });
 
         },
@@ -234,21 +226,27 @@
             var items = $(o.items);
             self.shortClass = "";
             self.nextItem = "";
+            var activeItem = e.find(o.currentClass);
 
             //Highlight Item
             self._highlightItem('prev');
 
-            // Find Location Of First Element
-            var firstItem = $(items[0]);
-            var offset = firstItem.offset();
+            var lastItem = $(o.items).last();
+            var totalWidth = (parseInt(lastItem.css("left")) + lastItem.outerWidth()) - activeItem.outerWidth();
 
-            //Clone For Smooth Scrolling Off Edge
-            self.swappedElement = $(items[(self.itemsLength -1)]);
-            var myDiv = $('<div></div>')
-                        .html(self.swappedElement.html())
-                        .addClass('scrollable-item '+ self.shortClass)
-                        .css('left', (offset.left - self.swappedElement.outerWidth()))
-                        .prependTo(o.container);
+            if(lastItem.offset().left + self.nextItem.outerWidth() > windowWidth) {
+                console.log("meh");
+                // Find Location Of First Element
+                var firstItem = $(items).first();
+                var offset = firstItem.offset();
+
+                self.swappedElement = $(items).last();
+                var myDiv = $('<div></div>')
+                            .html(self.swappedElement.html())
+                            .addClass('scrollable-item '+ self.shortClass)
+                            .css('left', (offset.left - self.swappedElement.outerWidth()))
+                            .prependTo(o.container);
+            }
 
             // Do Scroll
             var moveDistance = self.nextItem.outerWidth() + "px";
@@ -256,6 +254,7 @@
             self._scroll('prev',moveDistance, function(){
                 self._scrollOnComplete('prev');
             });
+
 
         },
 
@@ -292,25 +291,24 @@
                     $(o.items).animate({'left': "-="+distance},
                     o.speed,
                     o.easing,function(){
-                        if(count < self.itemsLength) {
-                            count++;
-                        } else {
+                        count++;
+                        if(count >= $(o.items).length) {
                             callback();
-                        }
+                        } 
                     });
 
                     break;
                 case "prev":
                     var count = 0;
 
+
                     $(o.items).animate({'left': "+="+distance},
                     o.speed,
                     o.easing,function(){
-                        if(count < self.itemsLength) {
-                            count++;
-                        } else {
+                        count++; 
+                        if(count >= $(o.items).length) {
                             callback();
-                        }
+                        } 
                     });
 
                     break;
@@ -321,11 +319,12 @@
 
         _scrollOnComplete: function( direction ) {
             var self = this, o = this.options;
-
             //IE memory leak prevention
-            self.swappedElement.remove();
-            self.swappedElement = null;
 
+            if(self.swappedElement) {
+                self.swappedElement.remove();
+                self.swappedElement = null;
+            }
 
             //Rebind Action Buttons
             self._bindControls();
@@ -360,7 +359,7 @@
 
             activeItem.find(o.captionClass).hide();
             activeItem.removeClass('active');
-            self.nextItem.addClass('active');
+            self.nextItem.addClass('active'); //TODO: fix when not defined (short list)
 
         },
         
