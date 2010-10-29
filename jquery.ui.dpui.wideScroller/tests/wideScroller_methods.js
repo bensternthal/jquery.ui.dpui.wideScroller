@@ -5,16 +5,16 @@
 
 (function($) {
 
-module("wideScroller: ui corea");
+module("wideScroller: ui core");
 test("Number of items display", function() {
 
     var el = $("#scroller").wideScroller();
-    
+
     expect(2);
-    
+
 	var value = $('#rid-ws-totalItems').html();
 	equals( 4, value, "Total number of items should be 3" );
-	
+
 	var value = $('#rid-ws-currentItem').html();
 	equals( 1, value, "Current item should be 1" );
 
@@ -32,8 +32,8 @@ test("1st Item Location/Offset", function() {
 
 });
 
-module("wideScroller: events");
-test("Bind controls, prev/next", function() {
+module("wideScroller: events & callbacks");
+test("Bind Controls, Prev/Next Callback", function() {
     stop();
     expect(2);
 
@@ -55,32 +55,44 @@ test("Bind controls, prev/next", function() {
     }
 });
 
-test("Stop Callback", function() {
+test("Stop & Start Callback", function() {
     stop();
-    expect(1);
+    expect(2);
 
+    var startCount = 0;
     var stopCount = 0;
 
-    $("#scroller").wideScroller("option", "stop", function(){ stopCount++; });
+    $("#scroller").wideScroller("destroy");
+    $("#scroller").wideScroller();
+
+    $("#scroller").wideScroller("option", "startScroll", function(){ startCount++;console.log(startCount); });
+    $("#scroller").wideScroller("option", "stopScroll", function(){ stopCount++; });
+
 
     $('.next').click();
 
     var timer = setInterval(function(){test()}, 4000);
 
     function test() {
+        equals( startCount, 1, "start callback happened once" );
         equals( stopCount, 1, "stop callback happened once" );
         clearInterval(timer);
         start();
     }
 });
+//TODO add start callback test
 
-test("Window Resize Event", function() {
-    expect(1);
+test("Window Resize Event & Callback", function() {
+    expect(2);
 
     stop()
 
     var origWidth = $(window).width();
     var origHeight = $(window).height();
+
+    var resize = 0;
+    $("#scroller").wideScroller("option", "resize", function(){ resize++; });
+
 
     window.resizeTo(800,600);
     var timer = setInterval(function(){test()}, 1000);
@@ -89,6 +101,9 @@ test("Window Resize Event", function() {
         var locatorOffset = $("#locator").offset().left + "px";
         var itemOffset = $(".active").css("left");
         equals( locatorOffset, itemOffset, "Offest of locator and active image match" );
+        ok( resize !== 0, "Resize callback happened at least once" );
+
+
         window.resizeTo(origWidth, origHeight);
         clearInterval(timer);
         start();
@@ -109,11 +124,7 @@ test("Specify Start Image", function() {
         goToItem: '3'
     });
 
-
-
-
-
-    ok($(items[2]).hasClass("active"), "Second Image Is Active" ); 
+    ok($(items[2]).hasClass("active"), "Second Image Is Active" );
 
 });
 
