@@ -94,7 +94,7 @@ test("Window Resize Event & Callback", function() {
     $("#scroller").wideScroller("option", "resize", function(){ resize++; });
 
 
-    window.resizeTo(800,600);
+    window.resizeTo(800,600); 
     var timer = setInterval(function(){test()}, 1000);
 
     function test() {
