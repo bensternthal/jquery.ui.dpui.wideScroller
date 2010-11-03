@@ -12,10 +12,10 @@ test("Number of items display", function() {
 
     expect(2);
 
-	var value = $('#rid-ws-totalItems').html();
+	var value = $('.ws-totalItems').html();
 	equals( 4, value, "Total number of items should be 3" );
 
-	var value = $('#rid-ws-currentItem').html();
+	var value = $('.ws-currentItem').html();
 	equals( 1, value, "Current item should be 1" );
 
 });
@@ -33,6 +33,30 @@ test("1st Item Location/Offset", function() {
 });
 
 module("wideScroller: events & callbacks");
+test("Stop & Start Callback", function() {
+    stop();
+    expect(2);
+
+    var startCount = 0;
+    var stopCount = 0;
+
+
+    $("#scroller").wideScroller("option", "startScroll", function(){ startCount++;});
+    $("#scroller").wideScroller("option", "stopScroll", function(){ stopCount++; });
+
+
+    $('.next').click();
+
+    var timer = setInterval(function(){test()}, 4000);
+
+    function test() {
+        equals( startCount, 1, "start callback happened once" );
+        equals( stopCount, 1, "stop callback happened once" );
+        clearInterval(timer);
+        start();
+    }
+});
+
 test("Bind Controls, Prev/Next Callback", function() {
     stop();
     expect(2);
@@ -55,32 +79,7 @@ test("Bind Controls, Prev/Next Callback", function() {
     }
 });
 
-test("Stop & Start Callback", function() {
-    stop();
-    expect(2);
 
-    var startCount = 0;
-    var stopCount = 0;
-
-    $("#scroller").wideScroller("destroy");
-    $("#scroller").wideScroller();
-
-    $("#scroller").wideScroller("option", "startScroll", function(){ startCount++;console.log(startCount); });
-    $("#scroller").wideScroller("option", "stopScroll", function(){ stopCount++; });
-
-
-    $('.next').click();
-
-    var timer = setInterval(function(){test()}, 4000);
-
-    function test() {
-        equals( startCount, 1, "start callback happened once" );
-        equals( stopCount, 1, "stop callback happened once" );
-        clearInterval(timer);
-        start();
-    }
-});
-//TODO add start callback test
 
 test("Window Resize Event & Callback", function() {
     expect(2);
@@ -94,7 +93,7 @@ test("Window Resize Event & Callback", function() {
     $("#scroller").wideScroller("option", "resize", function(){ resize++; });
 
 
-    window.resizeTo(800,600); 
+    window.resizeTo(800,600);
     var timer = setInterval(function(){test()}, 1000);
 
     function test() {
@@ -129,6 +128,8 @@ test("Specify Start Image", function() {
 });
 
 
-//test re-order
+//TODO Test re-order
+//TODO Test Spinner
+
 
 })(jQuery);
