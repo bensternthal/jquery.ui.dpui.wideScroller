@@ -7,7 +7,7 @@
  * Date: ${DATE}
  *
  * Depends:
- *      jquery 1.4.2
+ *      jquery 1.4.3
  *      jquery.ui 1.8.4
  *      jquery.ba-throttle-debounce.min.js 1.1 (http://benalman.com/projects/jquery-throttle-debounce-plugin/)
  *
@@ -18,7 +18,6 @@
  *      previous
  *      resize
  *
- * TODO - loader Optional
  * 
  */
 
@@ -38,7 +37,7 @@
             loaderID: '#scroller-spinner',
             goToItem: null,
             easing: 'linear',
-            speed: 600
+            speed: 300
         },
 
         _create: function() {
@@ -188,13 +187,13 @@
             var lastItem = $(items).last();
             var offset = lastItem.offset();
 
-            // Clone Loop
+            // Send in the clone
             self.swappedElement = $(items).first();
-            var myDiv = $('<div></div>')
-                    .html(self.swappedElement.html())
-                        .addClass('scrollable-item')
-                        .css('left', (lastItem.outerWidth() + offset.left))
-                        .appendTo(o.container);
+            $('<div></div>')
+                .html(self.swappedElement.html())
+                .addClass('scrollable-item')
+                .css('left', (lastItem.outerWidth() + offset.left))
+                .appendTo(o.container);
 
             lastItem = $(o.itemsClass).last();
 
@@ -249,11 +248,11 @@
                 var offset = firstItem.offset();
 
                 self.swappedElement = $(items).last();
-                var myDiv = $('<div></div>')
-                            .html(self.swappedElement.html())
-                            .addClass('scrollable-item '+ self.shortClass)
-                            .css('left', (offset.left - self.swappedElement.outerWidth()))
-                            .prependTo(o.container);
+                $('<div></div>')
+                    .html(self.swappedElement.html())
+                    .addClass('scrollable-item '+ self.shortClass)
+                    .css('left', (offset.left - self.swappedElement.outerWidth()))
+                    .prependTo(o.container);
             }
 
             // Do Scroll
@@ -403,14 +402,14 @@
             self.setItemPosition();
 
             //callback
-            self._trigger('resize')
+            self._trigger('resize');
         },
 
         hideLoader: function() {
             var self = this,
                 o = this.options;
 
-            if(o.loaderID != null) {
+            if(o.loaderID !== null) {
                 setTimeout(function(){
                     $(o.loaderID).fadeOut();
                 }, 800);
@@ -422,7 +421,7 @@
             var self = this,
                 o = this.options;
 
-            if(o.loaderID != null) {
+            if(o.loaderID !== null) {
                 setTimeout(function(){
                     $(o.loaderID).fadeIn();
                 }, 800);
