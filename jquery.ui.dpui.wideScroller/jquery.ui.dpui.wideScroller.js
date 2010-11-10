@@ -36,7 +36,7 @@
             totalItemDisplayClass: '.ws-totalItems',
             loaderID: '#scroller-spinner',
             goToItem: null,
-            easing: 'easeInQuad',
+            easing: 'linear',
             speed: 600
         },
 
@@ -201,6 +201,7 @@
                         .appendTo(o.container);
 
             lastItem = $(o.itemsClass).last();
+
             totalWidth = (parseInt(lastItem.css("left"),10) + lastItem.outerWidth()) - activeItem.outerWidth();
 
             //fixes when images do not fill screen
@@ -351,6 +352,7 @@
 
             activeItem.removeClass(o.activeItemClass);
             self.nextItem.addClass(o.activeItemClass);
+
 
         },
 
