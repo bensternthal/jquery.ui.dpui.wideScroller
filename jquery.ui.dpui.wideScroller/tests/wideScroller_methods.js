@@ -5,110 +5,138 @@
 
 (function($) {
 
-module("wideScroller: ui core");
-test("Number of items display", function() {
+    module("wideScroller: ui core");
+    test("Number of items display", function() {
 
-    expect(2);
+        expect(2);
 
-	var value = $('.ws-totalItems').html();
-	equals( 4, value, "Total number of items should be 3" );
+        var value = $('.ws-totalItems').html();
+        equals( 4, value, "Total number of items should be 3" );
 
-	var value = $('.ws-currentItem').html();
-	equals( 1, value, "Current item should be 1" );
+        var value = $('.ws-currentItem').html();
+        equals( 1, value, "Current item should be 1" );
 
-});
-
-test("1st Item Location/Offset", function() {
-    expect(1);
-
-    stop();
-    var locatorOffset = $("#locator").offset().left;
-
-
-    var timer = setInterval(function(){test()}, 1000);
-
-    function test() {
-        var itemOffset = $(".active").offset().left;
-        equals( locatorOffset, itemOffset, "Offest of locator and active image match, might fail if scrollbar FF, but OK" );
-        clearInterval(timer);
-        start();
-    }
-
-});
-
-module("wideScroller: events & callbacks");
-test("Next Callback & Stop/Start Callback", function() {
-    stop();
-    expect(3);
-
-    var startCount = 0,
-        stopCount = 0,
-        next = 0;
-
-    $("#scroller").wideScroller("option", "startScroll", function(){ startCount++;});
-    $("#scroller").wideScroller("option", "stopScroll", function(){ stopCount++; });
-	$("#scroller").wideScroller("option", "next", function(){ next++; });
-
-    $('.next').click();
-
-    var timer = setInterval(function(){test()}, 4000);
-
-    function test() {
-        equals( startCount, 1, "start callback happened once" );
-        equals( stopCount, 1, "stop callback happened once" );
-        equals( next, 1, "next button bound -> next callback happened once" );
-        clearInterval(timer);
-        start();
-    }
-
-});
-
-test("Prev Callback & Stop/Start Callback", function() {
-    stop();
-    expect(3);
-
-    var startCount = 0,
-        stopCount = 0,
-        prev = 0;
-
-    $("#scroller").wideScroller("option", "startScroll", function(){ startCount++;});
-    $("#scroller").wideScroller("option", "stopScroll", function(){ stopCount++; });
-    $("#scroller").wideScroller("option", "previous", function(){ prev++; });
-
-
-    $('.prev').click();
-
-    var timer = setInterval(function(){test()}, 4000);
-
-    function test() {
-        equals( startCount, 1, "start callback happened once" );
-        equals( stopCount, 1, "stop callback happened once" );
-        equals( prev, 1, "prev button bound -> prev callback happened once" );
-        clearInterval(timer);
-        start();
-    }
-
-});
-
-module("wideScroller: option");
-test("Specify Start Image", function() {
-
-    expect(1);
-
-    $("#scroller").wideScroller("destroy");
-
-    var items = $(".scrollable-item");
-
-    $("#scroller").wideScroller({
-        goToItem: '3'
     });
 
-    ok($(items[2]).hasClass("active"), "Third Image Is Active" );
+    test("1st Item Location/Offset", function() {
+        expect(1);
+
+        stop();
+        var locatorOffset = $("#locator").offset().left;
 
 
-});
+        var timer = setInterval(function(){test()}, 1000);
+
+        function test() {
+            var itemOffset = $(".active").offset().left;
+            equals( locatorOffset, itemOffset, "Offest of locator and active image match, might fail if scrollbar FF, but OK" );
+            clearInterval(timer);
+            start();
 
 
+        }
+    });
+
+    module("wideScroller: events & callbacks");
+    test("Next Callback & Stop/Start Callback", function() {
+        stop();
+        expect(3);
+
+        var startCount = 0,
+            stopCount = 0,
+            next = 0;
+
+        $("#scroller").wideScroller("option", "startScroll", function(){ startCount++;});
+        $("#scroller").wideScroller("option", "stopScroll", function(){ stopCount++; });
+        $("#scroller").wideScroller("option", "next", function(){ next++; });
+
+        $('.next').click();
+
+        var timer = setInterval(function(){test()}, 4000);
+
+        function test() {
+            equals( startCount, 1, "start callback happened once" );
+            equals( stopCount, 1, "stop callback happened once" );
+            equals( next, 1, "next button bound -> next callback happened once" );
+            clearInterval(timer);
+            start();
+        }
+
+    });
+
+    test("Prev Callback & Stop/Start Callback", function() {
+        stop();
+        expect(3);
+
+        var startCount = 0,
+            stopCount = 0,
+            prev = 0;
+
+        $("#scroller").wideScroller("option", "startScroll", function(){ startCount++;});
+        $("#scroller").wideScroller("option", "stopScroll", function(){ stopCount++; });
+        $("#scroller").wideScroller("option", "previous", function(){ prev++; });
+
+
+        $('.prev').click();
+
+        var timer = setInterval(function(){test()}, 4000);
+
+        function test() {
+            equals( startCount, 1, "start callback happened once" );
+            equals( stopCount, 1, "stop callback happened once" );
+            equals( prev, 1, "prev button bound -> prev callback happened once" );
+            clearInterval(timer);
+            start();
+        }
+
+    });
+
+    module("wideScroller: option");
+    test("Specify Start Image", function() {
+
+        expect(1);
+
+        $("#scroller").wideScroller("destroy");
+
+        var items = $(".scrollable-item");
+
+        $("#scroller").wideScroller({
+            goToItem: '3'
+        });
+
+        ok($(items[2]).hasClass("active"), "Third Image Is Active" );
+
+    });
+
+    test("Show Loader", function() {
+        stop();
+        expect(1);
+
+        $("#scroller").wideScroller("showLoader");
+
+        var timer = setInterval(function(){test()}, 2000);
+
+        function test() {
+            ok($('#scroller-spinner').is(':visible'), "Loader is Visible" );
+            clearInterval(timer);
+            start();
+        }
+    });
+
+    test("Hide Loader", function() {
+        stop();
+        expect(1);
+
+        $("#scroller").wideScroller("hideLoader");
+
+        var timer = setInterval(function(){test()}, 2000);
+
+        function test() {
+            ok($('#scroller-spinner').is(':hidden'), "Loader is Hidden" );
+            clearInterval(timer);
+            start();
+        }
+    });
 
 
 /*

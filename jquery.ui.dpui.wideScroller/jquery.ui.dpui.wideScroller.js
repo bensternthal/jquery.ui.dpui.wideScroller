@@ -17,7 +17,8 @@
  *      next
  *      previous
  *      resize
- * 
+ *
+ * TODO - loader Optional
  * 
  */
 
@@ -166,13 +167,8 @@
             // Image Numbers
             self._updateItemNumber();
 
-
             //Hide Spinner
-            if(o.loaderID != null) {
-                setTimeout(function(){
-                    $(o.loaderID).fadeOut();
-                }, 800);
-            }
+            self.hideLoader();
         },
 
         moveNext: function() {
@@ -410,6 +406,29 @@
             self._trigger('resize')
         },
 
+        hideLoader: function() {
+            var self = this,
+                o = this.options;
+
+            if(o.loaderID != null) {
+                setTimeout(function(){
+                    $(o.loaderID).fadeOut();
+                }, 800);
+            }
+        },
+
+        /* Not used by default but could be useful */
+        showLoader: function() {
+            var self = this,
+                o = this.options;
+
+            if(o.loaderID != null) {
+                setTimeout(function(){
+                    $(o.loaderID).fadeIn();
+                }, 800);
+            }
+        },
+
         destroy: function() {
             var self = this,
                 o = this.options,
@@ -419,9 +438,7 @@
             $(o.nextButton).unbind('click');
             $(o.prevButton).unbind('click');
 
-            if(o.loaderID != null) {
-                $(o.loaderID).hide();
-            }
+            self.hideLoader();
 
             e.html(self._initialState);
             $(o.itemsClass).css('left','0');
