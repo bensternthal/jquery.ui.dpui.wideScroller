@@ -56,6 +56,7 @@
             // Bind Buttons
             self._bindControls();
 
+            // Cache Number Of Items
             self.itemsLength = $(o.itemsClass).length;
 
             // If only one image hide controls

@@ -11,7 +11,7 @@
         expect(2);
 
         var value = $('.ws-totalItems').html();
-        equals( 4, value, "Total number of items should be 3" );
+        equals( 4, value, "Total number of items should be 4" );
 
         var value = $('.ws-currentItem').html();
         equals( 1, value, "Current item should be 1" );

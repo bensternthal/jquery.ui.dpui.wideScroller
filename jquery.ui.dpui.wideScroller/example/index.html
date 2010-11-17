@@ -12,18 +12,8 @@
     <script type="text/javascript">
 
         $(function() {
-
+            // invoke the scroller
             $("#scroller").wideScroller();
-
-//            $("#scroller").wideScroller({
-//                startScroll: function() {
-//                    $(".scrollable-meta").hide();
-//                },
-//                stopScroll: function() {
-//                    $(".active .scrollable-meta").fadeIn('fast');
-//                },
-//                goToItem: 2
-//            });
 
         });
 
@@ -73,7 +63,7 @@
         background:#f5f5f5 url(spinner.gif) center center no-repeat;
         top:0px;
         left:0px;
-        z-index:5;
+        z-index:2;
     }
     </style>
 
@@ -127,6 +117,7 @@
             <!--
                 all scrollable items need the same class, 
                 "active" is class of current image and is applied as you move prev / next
+                 should be on first image.
                  default image should have class active applied, images will be reshuffled based on browser width
             -->
             <div class="scrollable-item active">
