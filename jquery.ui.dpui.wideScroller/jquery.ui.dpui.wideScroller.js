@@ -192,7 +192,7 @@
             self.swappedElement = $(items).first();
             $('<div></div>')
                 .html(self.swappedElement.html())
-                .addClass('scrollable-item')
+                .addClass('scrollable-item') //TODO make this option
                 .css('left', (lastItem.outerWidth() + offset.left))
                 .appendTo(o.container);
 
