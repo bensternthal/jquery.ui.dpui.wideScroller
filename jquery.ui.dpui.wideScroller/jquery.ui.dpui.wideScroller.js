@@ -18,7 +18,11 @@
  *      previous
  *      resize
  *
- * 
+ * TODO: refactor so all items passed in do not have # or . notation
+ * TODO: Note requires 1.4.2 until bug fixed: http://bugs.jquery.com/ticket/7193
+ * TODO: Example Using URL
+ * TODO: Opera 9
+ *
  */
 
 (function($) {
