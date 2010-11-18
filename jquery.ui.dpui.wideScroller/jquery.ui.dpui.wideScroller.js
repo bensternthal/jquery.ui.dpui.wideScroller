@@ -8,7 +8,7 @@
  *
  * Depends:
  *      jquery 1.4.3
- *      jquery.ui 1.8.4
+ *      jquery.ui 1.8.4 (only for easing other than swing)
  *      jquery.ba-throttle-debounce.min.js 1.1 (http://benalman.com/projects/jquery-throttle-debounce-plugin/)
  *
  * Callbacks
@@ -18,7 +18,6 @@
  *      previous
  *      resize
  *
- * TODO: refactor so all items passed in do not have # or . notation
  * TODO: Note requires 1.4.2 until bug fixed: http://bugs.jquery.com/ticket/7193
  * TODO: Example Using URL
  * TODO: Opera 9
@@ -27,11 +26,12 @@
 
 (function($) {
 
+    var ws_activeItemClass = "dpui-ws-active",  //class used for active item
+        ws_itemsClass = "dpui-ws-item";         //class used for scrollable item
+
     $.widget("ui.wideScroller", {
         options: {
             offsetLocatorID: '#locator',
-            itemsClass: '.scrollable-item',
-            activeItemClass: 'active',            
             container: '#scroller-container',
             nextButton: '.next',
             prevButton: '.prev',
@@ -61,7 +61,7 @@
             self._bindControls();
 
             // Cache Number Of Items
-            self.itemsLength = $(o.itemsClass).length;
+            self.itemsLength = $("." + ws_itemsClass).length;
 
             // If only one image hide controls
             if (self.itemsLength <= 1){
@@ -114,12 +114,12 @@
 
         _reOrderItems: function() {
             var o = this.options,
-                items = $(o.itemsClass);
+                items = $("." + ws_itemsClass);
 
             //Reorder dom elements for load
 
-            items.removeClass(o.activeItemClass);
-            $(items[o.goToItem-1]).addClass(o.activeItemClass);
+            items.removeClass(ws_activeItemClass);
+            $(items[o.goToItem-1]).addClass(ws_activeItemClass);
 
             for (var i=0; i<(o.goToItem - 1); i++) {
                 $(items[i]).detach().appendTo(o.container);
@@ -134,7 +134,7 @@
                 o = this.options,
                 windowOffset = $(o.offsetLocatorID).offset(),
                 windowWidth = $(window).width(),
-                items = $(o.itemsClass),
+                items = $("." + ws_itemsClass),
                 offsetWidth = 0,
                 leftWidth = 0,
                 overflowElements = [],
@@ -180,9 +180,9 @@
                 o = this.options,
                 e = this.element,
                 windowWidth = $(window).width(),
-                items = $(o.itemsClass),
-                itemsLength = $(o.itemsClass).length,
-                activeItem = e.find("." + o.activeItemClass),
+                items = $("." + ws_itemsClass),
+                itemsLength = $("." + ws_itemsClass).length,
+                activeItem = e.find("." + ws_activeItemClass),
                 totalWidth = 0;
 
             //Highlight Image Move Active Class
@@ -196,11 +196,11 @@
             self.swappedElement = $(items).first();
             $('<div></div>')
                 .html(self.swappedElement.html())
-                .addClass('scrollable-item') //TODO make this option
+                .addClass(ws_itemsClass)
                 .css('left', (lastItem.outerWidth() + offset.left))
                 .appendTo(o.container);
 
-            lastItem = $(o.itemsClass).last();
+            lastItem = $("." + ws_itemsClass).last();
 
             totalWidth = (parseInt(lastItem.css("left"),10) + lastItem.outerWidth()) - activeItem.outerWidth();
 
@@ -235,8 +235,8 @@
                 o = this.options,
                 e = this.element,
                 windowWidth = $(window).width(),
-                items = $(o.itemsClass),
-                activeItem = e.find("." + o.activeItemClass);
+                items = $("." + ws_itemsClass),
+                activeItem = e.find("." + ws_activeItemClass);
 
             self.shortClass = "";
             self.nextItem = "";
@@ -244,7 +244,7 @@
             //Highlight Item
             self._highlightItem('prev');
 
-            var lastItem = $(o.itemsClass).last();
+            var lastItem = $("." + ws_itemsClass).last();
             var totalWidth = (parseInt(lastItem.css("left"),10) + lastItem.outerWidth()) - activeItem.outerWidth();
 
             if(lastItem.offset().left + self.nextItem.outerWidth() > windowWidth) {
@@ -255,7 +255,7 @@
                 self.swappedElement = $(items).last();
                 $('<div></div>')
                     .html(self.swappedElement.html())
-                    .addClass('scrollable-item '+ self.shortClass)
+                    .addClass(ws_itemsClass + " " + self.shortClass)
                     .css('left', (offset.left - self.swappedElement.outerWidth()))
                     .prependTo(o.container);
             }
@@ -281,11 +281,11 @@
 
             switch(direction) {
                 case "next":
-                    $(o.itemsClass).animate({'left': "-="+distance},
+                    $("." + ws_itemsClass).animate({'left': "-="+distance},
                     o.speed,
                     o.easing,function(){
                         count++;
-                        if(count >= $(o.itemsClass).length) {
+                        if(count >= $("." + ws_itemsClass).length) {
                             callback();
                         }
                     });
@@ -293,11 +293,11 @@
                     break;
 
                 case "prev":
-                    $(o.itemsClass).animate({'left': "+="+distance},
+                    $("." + ws_itemsClass).animate({'left': "+="+distance},
                     o.speed,
                     o.easing,function(){
                         count++;
-                        if(count >= $(o.itemsClass).length) {
+                        if(count >= $("." + ws_itemsClass).length) {
                             callback();
                         }
                     });
@@ -334,7 +334,7 @@
             var self = this,
                 o = this.options,
                 e = this.element,
-                activeItem = e.find("." + o.activeItemClass);
+                activeItem = e.find("." + ws_activeItemClass);
 
             if(direction === "next") {
                 self.nextItem = activeItem.next();
@@ -345,13 +345,13 @@
                     
                     //no items before so use last on right
                     // short class is only used in this case in prev function
-                    self.nextItem = $(o.itemsClass).last();
-                    self.shortClass = o.activeItemClass;
+                    self.nextItem = $("." + ws_itemsClass).last();
+                    self.shortClass = ws_activeItemClass;
                 }
             }
 
-            activeItem.removeClass(o.activeItemClass);
-            self.nextItem.addClass(o.activeItemClass);
+            activeItem.removeClass(ws_activeItemClass);
+            self.nextItem.addClass(ws_activeItemClass);
 
 
         },
@@ -445,7 +445,7 @@
             self.hideLoader();
 
             e.html(self._initialState);
-            $(o.itemsClass).css('left','0');
+            $("." + ws_itemsClass).css('left','0');
 
             $.Widget.prototype.destroy.apply(this, arguments);
             return this;

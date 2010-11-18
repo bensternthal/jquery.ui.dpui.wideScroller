@@ -2,30 +2,12 @@
 <html>
     <head>		
     <title>wideScroller Unit Tests</title>
-<!--
-    <script type="text/javascript" src="/lib/jquery/require-jquery-1.4.3.js"></script>
-        
-    <script type="text/javascript">
-        require([
-            "/lib/jquery/jquery-ui-1.8.4.custom.min.js",    
-            "/lib/external/jquery.ba-throttle-debounce.min.js",
-            "/jquery.ui.dpui.wideScroller/jquery.ui.dpui.wideScroller.js",
-            "/lib/qunit/qunit.js"
 
-            ],
-            function() {
-               
-            }
-        );
-    </script>
--->
     <link rel="stylesheet" href="/lib/qunit/qunit.css" type="text/css" media="screen">
-    <script type="text/javascript" src="/lib/jquery/jquery-1.4.3.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="/lib/jquery/jquery-ui-1.8.4.custom.min.js"></script>
     <script type="text/javascript" src="/lib/external/jquery.ba-throttle-debounce.min.js"></script>
     <script type="text/javascript" src="../jquery.ui.dpui.wideScroller.js"></script>
-
-
 
     <link rel="stylesheet" href="/lib/qunit/qunit.css" type="text/css" media="screen">
     <script type="text/javascript" src="/lib/qunit/qunit.js"></script>
@@ -37,16 +19,6 @@
 
             $("#scroller").wideScroller();
             
-//            $("#scroller").wideScroller({
-//                startScroll: function() {
-//                    $(".scrollable-meta").hide();
-//                },
-//                stopScroll: function() {
-//                    $(".active .scrollable-meta").fadeIn('fast');
-//                },
-//                goToItem: 2
-//            });
-
         });
 
     </script>
@@ -74,10 +46,17 @@
         left:0px;
     }
 
-    .scrollable-item{
+    .dpui-ws-item{
         position:absolute;
         padding:0 8px 0 0;
     }
+
+    .dpui-ws-active .scrollable-meta {display:block;}
+
+    .dpui-ws-active {
+        border:1px solid red;
+    }
+        
 
     .scrollable-meta {
         height:30px;
@@ -88,12 +67,7 @@
         display:none;
     }
 
-    .active .scrollable-meta {display:block;} 
-    
-    .active {
-        Xborder:1px solid red;
-    }
-    
+
     #locator {
         width:980px;
         margin:0 auto 0 auto;
@@ -114,7 +88,7 @@
     <style type="text/css">
         /*ie TODO: figure out ie6 width problem */
 
-        .scrollable-item{
+        .dpui-ws-item{
             width:80px;
         }
     </style>
@@ -155,7 +129,7 @@
 
         <div id="scroller-container">
 <!-- todo add note about active class here matching widget option -->
-            <div class="scrollable-item active">
+            <div class="dpui-ws-item dpui-ws-active">
                 <img src="image1.jpg"  width="980" height="400" />
                 <div class="scrollable-meta">
                     <div class="meta-pcredit">Photo Credit</div>                      
@@ -163,21 +137,21 @@
             </div>
 
 
-            <div class="scrollable-item">
+            <div class="dpui-ws-item">
                 <img src="short-image.gif"  width="250" height="400" />
                 <div class="scrollable-meta">
                     <div class="meta-pcredit">Photo Credit</div>
                 </div>
             </div>
 
-            <div class="scrollable-item">
+            <div class="dpui-ws-item">
                 <img src="short-image.gif"  width="250" height="400" />
                 <div class="scrollable-meta">
                     <div class="meta-pcredit">Photo Credit</div>
                 </div>
             </div>
 
-            <div class="scrollable-item">
+            <div class="dpui-ws-item">
                 <img src="image2.jpg"  width="980" height="400" />
                 <div class="scrollable-meta">
                     <div class="meta-pcredit">Photo Credit</div>

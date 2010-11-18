@@ -4,7 +4,7 @@
     <title>wideScroller Basic Example</title>
 
     <!-- required js -->
-    <script type="text/javascript" src="/lib/jquery/jquery-1.4.3.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="/lib/jquery/jquery-ui-1.8.4.custom.min.js"></script>
     <script type="text/javascript" src="/lib/external/jquery.ba-throttle-debounce.min.js"></script>
     <script type="text/javascript" src="/jquery.ui.dpui.wideScroller/jquery.ui.dpui.wideScroller.js"></script>
@@ -24,6 +24,8 @@
         padding:0;
         margin:0;
     }
+
+
 
     /* The "container" should have width 100% to match window size
         relative for position of child elements and height to match max image height
@@ -45,13 +47,14 @@
     }
 
     /* your scrollable items */
-    .scrollable-item{
+    .dpui-ws-item {
         position:absolute;
         padding:0 8px 0 0;
         opacity:.5;
     }
 
-    .active {
+    /* Active State */
+    .dpui-ws-active {
         opacity:1 !important;
     }
 
@@ -125,27 +128,27 @@
                 "active" is class of current image and is applied as you move prev / next
                  default image should have class active applied, images will be reshuffled based on browser width
             -->
-            <div class="scrollable-item active">
+            <div class="dpui-ws-item dpui-ws-active">
                 <img src="image1.jpg"  width="980" height="400" />
             </div>
 
-            <div class="scrollable-item">
+            <div class="dpui-ws-item">
                 <img src="image2.jpg"  width="980" height="400" />
             </div>
 
-            <div class="scrollable-item">
+            <div class="dpui-ws-item">
                 <img src="tom.jpg"  width="371" height="400" />
             </div>
 
-            <div class="scrollable-item">
+            <div class="dpui-ws-item">
                 <img src="short-image.gif"  width="250" height="400" />
             </div>
 
-            <div class="scrollable-item">
+            <div class="dpui-ws-item">
                 <img src="short-image.gif"  width="250" height="400" />
             </div>
 
-            <div class="scrollable-item">
+            <div class="dpui-ws-item">
                 <img src="image3.jpg"  width="980" height="400" />
             </div>
 

@@ -28,7 +28,7 @@
         var timer = setInterval(function(){test()}, 1000);
 
         function test() {
-            var itemOffset = $(".active").offset().left;
+            var itemOffset = $(".dpui-ws-active").offset().left;
             equals( locatorOffset, itemOffset, "Offest of locator and active image match, might fail if scrollbar FF, but OK" );
             clearInterval(timer);
             start();
@@ -98,13 +98,13 @@
 
         $("#scroller").wideScroller("destroy");
 
-        var items = $(".scrollable-item");
+        var items = $(".dpui-ws-item");
 
         $("#scroller").wideScroller({
             goToItem: '3'
         });
 
-        ok($(items[2]).hasClass("active"), "Third Image Is Active" );
+        ok($(items[2]).hasClass("dpui-ws-active"), "Third Image Is Active" );
 
     });
 
