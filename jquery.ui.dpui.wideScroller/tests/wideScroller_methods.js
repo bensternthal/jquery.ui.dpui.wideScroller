@@ -114,10 +114,10 @@
 
         $("#scroller").wideScroller("showLoader");
 
-        var timer = setInterval(function(){test()}, 2000);
+        var timer = setInterval(function(){test()}, 3000);
 
         function test() {
-            ok($('#scroller-spinner').is(':visible'), "Loader is Visible" );
+            ok($('#scroller-spinner').is(':visible'), "Loader is Visible (IE6/IE7 Test Fail But Works - TODO:fix)" );
             clearInterval(timer);
             start();
         }
@@ -171,8 +171,6 @@ test("Window Resize Event & Callback", function() {
 
 });
 */
-
-//TODO Test Spinner
 
 
 })(jQuery);

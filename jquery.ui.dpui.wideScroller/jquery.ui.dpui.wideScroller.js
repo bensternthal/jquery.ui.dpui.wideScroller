@@ -19,7 +19,7 @@
  *      resize
  *
  * TODO: Note requires 1.4.2 until bug fixed: http://bugs.jquery.com/ticket/7193
- * TODO: Opera 9
+
  *
  */
 
