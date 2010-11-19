@@ -11,24 +11,43 @@
     <!-- /required js -->
 
     <script type="text/javascript">
-        // Instantiate wide scroller with no options - this is a basic example
+        // Demo Of CallBack Usage
         $(function() {
-            $("#scroller").wideScroller();
+
+            $("#scroller").wideScroller({
+                startScroll: function() {
+                    $(".scrollable-meta").hide();
+                },
+                stopScroll: function() {
+                    $(".dpui-ws-active .scrollable-meta").fadeIn('fast');
+                }
+            });
+
         });
 
     </script>
 
     <style type="text/css">
 
+    /* Demo Only */    
+    .scrollable-meta {
+        height:30px;
+        margin-top:18px;
+        position:relative;
+        font-size:12px;
+        color:#939083;
+        display:none;
+    }
+
+    .dpui-ws-active .scrollable-meta {
+        display:block;
+    }
+
     body {
         padding:0;
         margin:0;
     }
 
-
-    /* The "container" should have width 100% to match window size
-        relative for position of child elements and height to match max image height
-    */
     #scroller {
         overflow:hidden;
         position:relative;
@@ -36,7 +55,6 @@
         height:525px;
     }
 
-    /* we need this second container for positioning */
     #scroller-container {
         margin:8px 0 35px 0;
         height:480px;
@@ -45,25 +63,21 @@
         left:0px;
     }
 
-    /* your scrollable items */
     .dpui-ws-item {
         position:absolute;
         padding:0 8px 0 0;
         opacity:.5;
     }
 
-    /* Active State */
     .dpui-ws-active {
         opacity:1 !important;
     }
 
-    /* The "thing" we use for figuring out the start location of the images*/
     #locator {
         width:980px;
         margin:0 auto 0 auto;
     }
 
-    /* optional spinner */
     #scroller-spinner {
         position:absolute;
         width:100%;
@@ -90,67 +104,70 @@
 
 
 
-
-
 </head>
 <body>
 
     <h1 >WideScroller Example</h1>
 
-    <!-- image numbers, classes can be passed in as options -->
     Image
     <span class="ws-currentItem"></span> of
     <span class="ws-totalItems"></span>
 
 
-    <!-- image prev/next, classes can be passed in as options -->
     <div>
         <a href="#" class="prev"><</a>
         <a href="#" class="next">></a>
     </div>
 
-    <!-- locator is used for determining left edge of "active image" -->
     <h1 id="locator">Locator</h1>
 
-    <!-- note css needed for #scroller -->
     <div id="scroller">
 
-        <!-- optional spinner, since on resize/load the images can move, if this is full width,
-            it prevents the user seing flashing -->
         <div id="scroller-spinner"></div>
 
-        <!-- note css for the container, this id can be passed in as an option -->
         <div id="scroller-container">
 
-            <!--
-                all scrollable items need the same dpui-ws-item class,
-                "dpui-ws-active" is class of current image and is applied as you move prev / next
-                 default image should have class dpui-ws-active applied, images will be reshuffled based on browser width
-            -->
             <div class="dpui-ws-item dpui-ws-active">
                 <img src="images/image1.jpg"  width="980" height="400" />
+                <div class="scrollable-meta">
+                    <div class="meta-pcredit">Photo Credit 1</div>
+                </div>
             </div>
 
             <div class="dpui-ws-item">
                 <img src="images/image2.jpg"  width="980" height="400" />
+                <div class="scrollable-meta">
+                    <div class="meta-pcredit">Photo Credit 2</div>
+                </div>
             </div>
 
             <div class="dpui-ws-item">
-                <img src="tom.jpg"  width="371" height="400" />
+                <img src="images/tom.jpg"  width="371" height="400" />
+                <div class="scrollable-meta">
+                    <div class="meta-pcredit">Photo Credit Jelly Baby</div>
+                </div>
             </div>
 
             <div class="dpui-ws-item">
                 <img src="images/short-image.gif"  width="250" height="400" />
+                <div class="scrollable-meta">
+                    <div class="meta-pcredit">Photo Credit Short 1</div>
+                </div>
             </div>
 
             <div class="dpui-ws-item">
                 <img src="images/short-image.gif"  width="250" height="400" />
+                <div class="scrollable-meta">
+                    <div class="meta-pcredit">Photo Credit Short 2</div>
+                </div>
             </div>
 
             <div class="dpui-ws-item">
                 <img src="images/image3.jpg"  width="980" height="400" />
+                <div class="scrollable-meta">
+                    <div class="meta-pcredit">Photo Credit 3</div>
+                </div>
             </div>
-
 
         </div>
     </div>

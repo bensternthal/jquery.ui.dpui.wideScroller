@@ -1,7 +1,7 @@
 /*
  * jQuery UI Wide Scroller
  *
- * Copyright (c) 2010 DevPatch (http://www.devpatch.com) "Fire Up The Quattro"
+ * Copyright (c) 2010 DevPatch (http://www.devpatch.com) 
  * Licensed under the GPL license
  *
  * Date: ${DATE}
@@ -14,12 +14,12 @@
  * Callbacks
  *      startScroll
  *      stopScroll
- *      next
- *      previous
+ *      nextButton
+ *      previousButton
  *      resize
  *
  * TODO: Note requires 1.4.2 until bug fixed: http://bugs.jquery.com/ticket/7193
- * TODO: Example Using URL
+ * TODO: Options All ID Or Class
  * TODO: Opera 9
  *
  */
@@ -91,7 +91,7 @@
                 self._unbindControls();
 
                 // callback
-                self._trigger('next', event);
+                self._trigger('nextButton', event);
                 return false;
             });
 
@@ -101,7 +101,7 @@
                 self._unbindControls();
 
                 // callback
-                self._trigger('previous', event);
+                self._trigger('previousButton', event);
                 return false;
             });
         },
@@ -192,7 +192,7 @@
             var lastItem = $(items).last();
             var offset = lastItem.offset();
 
-            // Send in the clone
+            // Send in the clone for smooth scrolling off edge
             self.swappedElement = $(items).first();
             $('<div></div>')
                 .html(self.swappedElement.html())
@@ -204,7 +204,7 @@
 
             totalWidth = (parseInt(lastItem.css("left"),10) + lastItem.outerWidth()) - activeItem.outerWidth();
 
-            //fixes when images do not fill screen
+            //fixe for when images are not wider than window
             if (totalWidth < windowWidth) {
                 var i = 0;
 
