@@ -14,12 +14,11 @@
  * Callbacks
  *      startScroll
  *      stopScroll
- *      nextButton
- *      previousButton
+ *      nextButtonClick
+ *      previousButtonClick
  *      resize
  *
  * TODO: Note requires 1.4.2 until bug fixed: http://bugs.jquery.com/ticket/7193
- * TODO: Options All ID Or Class
  * TODO: Opera 9
  *
  */
@@ -31,17 +30,17 @@
 
     $.widget("ui.wideScroller", {
         options: {
-            offsetLocatorID: '#locator',
-            container: '#scroller-container',
-            nextButton: '.next',
-            prevButton: '.prev',
-            showItemNumbers: true,
-            currentItemDisplayClass: '.ws-currentItem',
-            totalItemDisplayClass: '.ws-totalItems',
-            loaderID: '#scroller-spinner',
-            goToItem: null,
-            easing: 'linear',
-            speed: 300
+            offsetLocatorID: '#locator',                // required
+            containerID: '#scroller-container',         // required
+            loaderID: '#scroller-spinner',              // required
+            nextButtonClass: '.next',                   // required
+            prevButtonClass: '.prev',                   // required
+            showItemNumbers: true,                      // if false next to classes not needed
+            currentItemDisplayClass: '.ws-currentItem', // displays what item you are on
+            totalItemDisplayClass: '.ws-totalItems',    // displays total number of items
+            goToItem: null,                             // if used, override in initialization on page load
+            easing: 'linear',                           // can use jqueryUI easing if you include jqueryUI
+            speed: 300                                  // speed effects "tearing" so you can tweak as needed
         },
 
         _create: function() {
@@ -65,7 +64,7 @@
 
             // If only one image hide controls
             if (self.itemsLength <= 1){
-                $(o.prevButton +", " + o.nextButton).hide();
+                $(o.prevButtonClass +", " + o.nextButtonClass).hide();
             }
 
             // If specific start image specified
@@ -86,22 +85,22 @@
                 o = this.options;
 
             // Bind Next
-            $(o.nextButton).bind('click', function(event){
+            $(o.nextButtonClass).bind('click', function(event){
                 self.moveNext();
                 self._unbindControls();
 
                 // callback
-                self._trigger('nextButton', event);
+                self._trigger('nextButtonClick', event);
                 return false;
             });
 
             // Bind Prev
-            $(o.prevButton).bind('click', function(event){
+            $(o.prevButtonClass).bind('click', function(event){
                 self.movePrev();
                 self._unbindControls();
 
                 // callback
-                self._trigger('previousButton', event);
+                self._trigger('previousButtonClick', event);
                 return false;
             });
         },
@@ -109,7 +108,7 @@
         _unbindControls: function() {
             var o = this.options;
 
-            $(o.prevButton + "," + o.nextButton).unbind();
+            $(o.prevButtonClass + "," + o.nextButtonClass).unbind();
         },
 
         _reOrderItems: function() {
@@ -122,7 +121,7 @@
             $(items[o.goToItem-1]).addClass(ws_activeItemClass);
 
             for (var i=0; i<(o.goToItem - 1); i++) {
-                $(items[i]).detach().appendTo(o.container);
+                $(items[i]).detach().appendTo(o.containerID);
             }
 
             //ie mem leak
@@ -165,7 +164,7 @@
 
             $.each(overflowElements, function() {
                 leftWidth += $(this).outerWidth();
-                $(this).css('left', (windowOffset.left - leftWidth)).prependTo(o.container);
+                $(this).css('left', (windowOffset.left - leftWidth)).prependTo(o.containerID);
             });
 
             // Image Numbers
@@ -198,7 +197,7 @@
                 .html(self.swappedElement.html())
                 .addClass(ws_itemsClass)
                 .css('left', (lastItem.outerWidth() + offset.left))
-                .appendTo(o.container);
+                .appendTo(o.containerID);
 
             lastItem = $("." + ws_itemsClass).last();
 
@@ -212,7 +211,7 @@
                     i++;
                     $(items[i]).css('left', (lastItem.outerWidth() + lastItem.offset().left))
                                 .detach()
-                                .appendTo(o.container);
+                                .appendTo(o.containerID);
 
                     totalWidth += $(items[i]).outerWidth();
                     lastItem = $(items[i]);
@@ -257,7 +256,7 @@
                     .html(self.swappedElement.html())
                     .addClass(ws_itemsClass + " " + self.shortClass)
                     .css('left', (offset.left - self.swappedElement.outerWidth()))
-                    .prependTo(o.container);
+                    .prependTo(o.containerID);
             }
 
             // Do Scroll
@@ -439,8 +438,8 @@
                 e = this.element;
             
             e.removeClass('rid-widget');
-            $(o.nextButton).unbind('click');
-            $(o.prevButton).unbind('click');
+            $(o.nextButtonClass).unbind('click');
+            $(o.prevButtonClass).unbind('click');
 
             self.hideLoader();
 

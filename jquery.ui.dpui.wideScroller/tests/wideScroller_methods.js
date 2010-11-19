@@ -29,7 +29,7 @@
 
         function test() {
             var itemOffset = $(".dpui-ws-active").offset().left;
-            equals( locatorOffset, itemOffset, "Offest of locator and active image match, might fail if scrollbar FF, but OK" );
+            equals( locatorOffset, itemOffset, "Offest of locator and active image match" );
             clearInterval(timer);
             start();
 
@@ -48,7 +48,7 @@
 
         $("#scroller").wideScroller("option", "startScroll", function(){ startCount++;});
         $("#scroller").wideScroller("option", "stopScroll", function(){ stopCount++; });
-        $("#scroller").wideScroller("option", "next", function(){ next++; });
+        $("#scroller").wideScroller("option", "nextButtonClick", function(){ next++; });
 
         $('.next').click();
 
@@ -74,7 +74,7 @@
 
         $("#scroller").wideScroller("option", "startScroll", function(){ startCount++;});
         $("#scroller").wideScroller("option", "stopScroll", function(){ stopCount++; });
-        $("#scroller").wideScroller("option", "previous", function(){ prev++; });
+        $("#scroller").wideScroller("option", "previousButtonClick", function(){ prev++; });
 
 
         $('.prev').click();
