@@ -425,6 +425,9 @@
             e.html(self._initialState);
             self.setItemPosition();
 
+            //Rebind Buttons
+            //self._bindControls();
+
             //callback
             self._trigger('resize');
         },
