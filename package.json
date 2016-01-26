@@ -1,0 +1,22 @@
+{
+  "name": "widescroller",
+  "version": "1.0.0",
+  "description": "A Widescroller For Jquery UI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bensternthal/jquery.ui.dpui.wideScroller.git"
+  },
+  "author": "",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/bensternthal/jquery.ui.dpui.wideScroller/issues"
+  },
+  "homepage": "https://github.com/bensternthal/jquery.ui.dpui.wideScroller#readme",
+  "dependencies": {
+    "gulp-gh-pages": "^0.5.4"
+  }
+}
